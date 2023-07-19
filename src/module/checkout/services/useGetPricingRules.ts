@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PricingRulesType } from '../../../types/product';
+import { PricingRulesType } from '../../../types/pricing';
 
 const fetchData = async () => {
   const res = await fetch('/api/pricingRules.json')
