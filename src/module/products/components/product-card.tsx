@@ -11,7 +11,6 @@ const ProductCard = (product: PizzaInfoType) => {
       mb={8}
       px={{ base: 4, md: 8 }}
       py={'5'}
-      shadow={'xl'}
       border={'1px solid'}
       borderColor={'gray.300'}
       rounded={'lg'}

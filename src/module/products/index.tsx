@@ -1,17 +1,13 @@
 import { Flex } from '@chakra-ui/react';
 import ProductCard from './components/product-card';
 import { PizzaInfoType } from '../../types/product';
-
-const PIZZA: PizzaInfoType[] = [
-  { id: 1, name: 'Small Pizza', price: 11.99, size: 'S' },
-  { id: 2, name: 'Medium Pizza', price: 15.99, size: 'M' },
-  { id: 3, name: 'Large Pizza', price: 21.99, size: 'L' }
-];
+import useGetProducts from './services/useGetProducts';
 
 const Products = () => {
+  const pizzaTypes = useGetProducts();
   return (
     <Flex direction='column'>
-      {PIZZA.map((pizza: PizzaInfoType) => (
+      {pizzaTypes.map((pizza: PizzaInfoType) => (
         <ProductCard key={pizza.id} {...pizza} />
       ))}
     </Flex>

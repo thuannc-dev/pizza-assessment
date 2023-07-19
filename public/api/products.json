@@ -1,0 +1,7 @@
+{
+  "products": [
+    { "id": 1, "name": "Small Pizza", "price": 11.99, "size": "S" },
+    { "id": 2, "name": "Medium Pizza", "price": 15.99, "size": "M" },
+    { "id": 3, "name": "Large Pizza", "price": 21.99, "size": "L" }
+  ]
+}

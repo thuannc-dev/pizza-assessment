@@ -1,0 +1,8 @@
+{
+  "pricingRules": [
+    { "id": "default" },
+    { "id": "microsoft" },
+    { "id": "amazon" },
+    { "id": "facebook" }
+  ]
+}
