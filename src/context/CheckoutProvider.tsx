@@ -6,6 +6,7 @@ interface ICheckoutContextState {
   carts: PizzaInfoCartType[];
   addToCart: (p: PizzaInfoType) => void;
   removeToCart: (p: PizzaInfoType) => void;
+  changePricingRules: (r: any) => void;
   total: number;
 }
 
@@ -13,6 +14,7 @@ export const CheckoutContext = createContext<ICheckoutContextState>({
   carts: [],
   addToCart: () => {},
   removeToCart: () => {},
+  changePricingRules: () => {},
   total: 0
 });
 
@@ -21,8 +23,9 @@ type CheckoutProviderProps = {
 };
 
 export function CheckoutProvider({ children }: CheckoutProviderProps) {
-  const { getPricing } = usePricing({});
   const [carts, setCarts] = useState<PizzaInfoCartType[]>([]);
+  const [pricingRules, setpPicingRules] = useState<any>({});
+  const { getPricing } = usePricing(pricingRules);
 
   const addToCart = useCallback((newItem: PizzaInfoType) => {
     setCarts(prevItems => {
@@ -70,7 +73,8 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
       carts,
       total,
       addToCart,
-      removeToCart
+      removeToCart,
+      changePricingRules: setpPicingRules
     }),
     [carts, total, addToCart, removeToCart]
   );

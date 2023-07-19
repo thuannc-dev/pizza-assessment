@@ -10,3 +10,5 @@ export interface PizzaInfoType {
 export interface PizzaInfoCartType extends PizzaInfoType {
   amount: number;
 }
+
+export interface PricingRulesType {}

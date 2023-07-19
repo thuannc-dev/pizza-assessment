@@ -1,15 +1,13 @@
 import { useCallback, useMemo } from 'react';
-import { PizzaInfoCartType } from '../types/product';
+import { PizzaInfoCartType, PricingRulesType } from '../types/product';
 
-interface PriceRuleType {}
-
-const usePricing = (priceRule: PriceRuleType) => {
+const usePricing = (pricingRules: PricingRulesType) => {
   const getPricing = useCallback(
     (items: PizzaInfoCartType[]) => {
       // TODO
       return 0;
     },
-    [priceRule]
+    [pricingRules]
   );
 
   return useMemo(
