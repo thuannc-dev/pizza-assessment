@@ -7,7 +7,7 @@ const Total = () => {
     <Flex mt='auto' width='100%' justify='space-between' alignItems='end'>
       <Text>Total:</Text>
       <Text fontSize='2xl' as='b'>
-        ${Math.round(total * 100) / 100}
+        ${total}
       </Text>
     </Flex>
   );
