@@ -1,10 +1,11 @@
-import { Text, Flex, IconButton, Spacer, Box } from '@chakra-ui/react';
+import { Text, Flex, IconButton, Spacer, Box, Button } from '@chakra-ui/react';
 import { PizzaInfoCartType } from '../../../types/product';
 import { useCheckoutProvider } from '../../../context/useCheckoutProvider';
 
 const ProductOrderCard = (product: PizzaInfoCartType) => {
   const { name, size, price, amount } = product;
-  const { addToCart, removeToCart } = useCheckoutProvider();
+  const { addToCart, removeFromCart, clearItemFromCart } =
+    useCheckoutProvider();
   return (
     <Box>
       <Flex>
@@ -15,20 +16,30 @@ const ProductOrderCard = (product: PizzaInfoCartType) => {
           <Text>${price}</Text>
         </Box>
         <Spacer />
-        <Flex alignItems='center'>
+        <Flex alignItems='center' justifyContent='center'>
           <IconButton
+            size='sm'
             aria-label='decrease'
             icon={<span>-</span>}
             variant='solid'
-            onClick={() => removeToCart(product)}
+            onClick={() => removeFromCart(product)}
           />
           <Text>{amount}</Text>
           <IconButton
+            size='sm'
             aria-label='increase'
             icon={<span>+</span>}
             variant='solid'
             onClick={() => addToCart(product)}
           />
+          <Button
+            ml={2}
+            size='sm'
+            colorScheme='red'
+            onClick={() => clearItemFromCart(product)}
+          >
+            Clear
+          </Button>
         </Flex>
       </Flex>
     </Box>

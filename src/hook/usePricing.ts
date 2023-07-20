@@ -45,7 +45,7 @@ const usePricing = (pricingRules: PricingRulesType) => {
 
   const getDiscount = useCallback(
     (items: PizzaInfoCartType[], pricingRules: PricingRulesType) => {
-      // TODO: change switch case to create object { ]Rules]: discountFunc}
+      // TODO: change switch case to create object { [Rules]: discountFunc}
       switch (pricingRules.type) {
         case PricingRulesEnum.DROP:
           return getDropDiscount(items, pricingRules as PricingRulesDropType);

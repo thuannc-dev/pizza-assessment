@@ -5,7 +5,8 @@ import usePricing from '../hook/usePricing';
 interface ICheckoutContextState {
   carts: PizzaInfoCartType[];
   addToCart: (p: PizzaInfoType) => void;
-  removeToCart: (p: PizzaInfoType) => void;
+  removeFromCart: (p: PizzaInfoType) => void;
+  clearItemFromCart: (p: PizzaInfoType) => void;
   changePricingRules: (r: any) => void;
   total: number;
 }
@@ -13,7 +14,8 @@ interface ICheckoutContextState {
 export const CheckoutContext = createContext<ICheckoutContextState>({
   carts: [],
   addToCart: () => {},
-  removeToCart: () => {},
+  removeFromCart: () => {},
+  clearItemFromCart: () => {},
   changePricingRules: () => {},
   total: 0
 });
@@ -29,9 +31,10 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
 
   const addToCart = useCallback((newItem: PizzaInfoType) => {
     setCarts(prevItems => {
-      const foundIndex = prevItems.findIndex(i => i.id === newItem.id);
+      const foundedIndex = prevItems.findIndex(i => i.id === newItem.id);
+
       // add new
-      if (foundIndex === -1) {
+      if (foundedIndex === -1) {
         return [...prevItems, { ...newItem, amount: 1 }];
       }
 
@@ -46,20 +49,33 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
     });
   }, []);
 
-  const removeToCart = useCallback((newItem: PizzaInfoType) => {
+  const removeFromCart = useCallback((currItem: PizzaInfoType) => {
     setCarts(prevItems => {
-      const foundIndex = prevItems.findIndex(i => i.id === newItem.id);
-      if (foundIndex > -1 && prevItems[foundIndex].amount === 1) {
-        return prevItems.splice(foundIndex, 1);
+      const foundedIndex = prevItems.findIndex(i => i.id === currItem.id);
+
+      if (foundedIndex > -1 && prevItems[foundedIndex].amount === 1) {
+        return prevItems.filter(item => item.id !== currItem.id);
       }
 
       const newItems = prevItems.map(item => {
-        if (item.id === newItem.id) {
+        if (item.id === currItem.id) {
           return { ...item, amount: item.amount - 1 };
         }
         return item;
       });
       return newItems;
+    });
+  }, []);
+
+  const clearItemFromCart = useCallback((currItem: PizzaInfoType) => {
+    setCarts(prevItems => {
+      const foundedIndex = prevItems.findIndex(i => i.id === currItem.id);
+
+      if (foundedIndex > -1) {
+        return prevItems.filter(item => item.id !== currItem.id);
+      }
+
+      return prevItems;
     });
   }, []);
 
@@ -73,10 +89,11 @@ export function CheckoutProvider({ children }: CheckoutProviderProps) {
       carts,
       total,
       addToCart,
-      removeToCart,
+      removeFromCart,
+      clearItemFromCart,
       changePricingRules: setpPicingRules
     }),
-    [carts, total, addToCart, removeToCart]
+    [carts, total, addToCart, removeFromCart, clearItemFromCart]
   );
 
   return (
