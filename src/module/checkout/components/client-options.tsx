@@ -1,10 +1,17 @@
 import { Box, Select } from '@chakra-ui/react';
 import { useCheckoutProvider } from '../../../context/useCheckoutProvider';
 import useGetPricingRules from '../services/useGetPricingRules';
+import { useMemo } from 'react';
 
 const ClientOptions = () => {
   const { changePricingRules } = useCheckoutProvider();
   const rules = useGetPricingRules();
+
+  const rulesIds = useMemo(() => {
+    if (rules) {
+      return rules.map(r => r.id);
+    }
+  }, [rules]);
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -14,13 +21,15 @@ const ClientOptions = () => {
       changePricingRules(rule);
     }
   };
+
   return (
     <Box>
       <Select placeholder='Select client type' onChange={onChange}>
-        <option value='default'>Default</option>
-        <option value='microsoft'>Microsoft</option>
-        <option value='amazon'>Amazon</option>
-        <option value='facebook'>Facebook</option>
+        {rulesIds?.map(id => (
+          <option key={id} value={id}>
+            {id}
+          </option>
+        ))}
       </Select>
     </Box>
   );

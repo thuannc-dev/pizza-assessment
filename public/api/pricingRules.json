@@ -5,7 +5,7 @@
       "id": "microsoft",
       "type": "GET_MORE",
       "size": "S",
-      "getAmount": 1,
+      "getMoreAmount": 1,
       "from": 2
     },
     {
@@ -18,7 +18,7 @@
       "id": "facebook",
       "type": "GET_MORE",
       "size": "M",
-      "getAmount": 1,
+      "getMoreAmount": 1,
       "from": 4
     }
   ]
