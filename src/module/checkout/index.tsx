@@ -13,6 +13,7 @@ import ClientOptions from './components/client-options';
 
 const Checkout = () => {
   const { carts } = useCheckoutProvider();
+
   return (
     <Card>
       <CardBody width={500}>

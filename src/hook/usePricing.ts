@@ -1,40 +1,64 @@
 import { useCallback, useMemo } from 'react';
-import { PizzaInfoCartType, Size } from '../types/product';
-import { Customer } from '../types/customer';
-import { PricingRulesType } from '../types/pricing';
+import { PizzaInfoCartType } from '../types/product';
+import {
+  PricingRulesType,
+  PricingRulesDropType,
+  PricingRulesGetmoreType,
+  PricingRulesEnum
+} from '../types/pricing';
+import { SizeType } from '../types/product';
 
 const usePricing = (pricingRules: PricingRulesType) => {
+  const findItemBySize = useCallback(
+    (items: PizzaInfoCartType[], size: SizeType) => {
+      return items.find(i => i.size === size);
+    },
+    []
+  );
+
+  const getDropDiscount = useCallback(
+    (items: PizzaInfoCartType[], rule: PricingRulesDropType) => {
+      const itemFounded = findItemBySize(items, rule.size);
+      if (itemFounded) {
+        return itemFounded.amount * (itemFounded.price - rule.dropTo) * -1;
+      }
+      return 0;
+    },
+    [findItemBySize]
+  );
+
+  const getGetmoreDiscount = useCallback(
+    (items: PizzaInfoCartType[], rule: PricingRulesGetmoreType) => {
+      const itemFounded = findItemBySize(items, rule.size);
+      if (itemFounded) {
+        const peak = rule.getMoreAmount + rule.from;
+        return (
+          Math.floor(itemFounded?.amount / peak) *
+          (itemFounded.price * rule.getMoreAmount) *
+          -1
+        );
+      }
+      return 0;
+    },
+    [findItemBySize]
+  );
+
   const getDiscount = useCallback(
     (items: PizzaInfoCartType[], pricingRules: PricingRulesType) => {
-      switch (pricingRules.id) {
-        case Customer.MICROSOFT:
-          const smallPizza = items.find(i => i.size === Size.SMALL);
-          if (smallPizza) {
-            return Math.floor(smallPizza?.amount / 3) * (smallPizza.price * -1);
-          }
-          return 0;
-        case Customer.AMAZON:
-          const largePizza = items.find(i => i.size === Size.LARGE);
-          if (largePizza) {
-            return (
-              largePizza.amount *
-              ((largePizza.price - (pricingRules?.dropTo || 0)) * -1)
-            );
-          }
-          return 0;
-        case Customer.FACEBOOK:
-          const mediumPizza = items.find(i => i.size === Size.MEDIUM);
-          if (mediumPizza) {
-            return (
-              Math.floor(mediumPizza?.amount / 5) * (mediumPizza.price * -1)
-            );
-          }
-          return 0;
+      // TODO: change switch case to create object { ]Rules]: discountFunc}
+      switch (pricingRules.type) {
+        case PricingRulesEnum.DROP:
+          return getDropDiscount(items, pricingRules as PricingRulesDropType);
+        case PricingRulesEnum.GET_MORE:
+          return getGetmoreDiscount(
+            items,
+            pricingRules as PricingRulesGetmoreType
+          );
         default:
           return 0;
       }
     },
-    []
+    [getDropDiscount, getGetmoreDiscount]
   );
 
   const getPricing = useCallback(

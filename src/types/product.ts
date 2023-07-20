@@ -1,15 +1,14 @@
 export type SizeType = 'S' | 'M' | 'L';
 
-export enum Size {
+export enum SizeEnum {
   SMALL = 'S',
   MEDIUM = 'M',
   LARGE = 'L'
 }
-
 export interface PizzaInfoType {
   id: number;
   name: string;
-  size: Size;
+  size: SizeType;
   price: number;
 }
 
