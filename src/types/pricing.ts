@@ -1,11 +1,17 @@
 import { SizeType } from './product';
 
-export type PricingRules = 'GET_MORE' | 'DROP';
+export type PricingRules = 'GET_MORE' | 'DROP' | 'DEFAULT';
 
 export enum PricingRulesEnum {
+  DEFAULT = 'DEFAULT',
   GET_MORE = 'GET_MORE',
   DROP = 'DROP'
 }
+
+export type PricingRulesDefaultType = {
+  id: string;
+  type: string;
+};
 
 export type PricingRulesDropType = {
   id: string;
@@ -22,4 +28,7 @@ export type PricingRulesGetmoreType = {
   from: number;
 };
 
-export type PricingRulesType = PricingRulesDropType | PricingRulesGetmoreType;
+export type PricingRulesType =
+  | PricingRulesDropType
+  | PricingRulesGetmoreType
+  | PricingRulesDefaultType;

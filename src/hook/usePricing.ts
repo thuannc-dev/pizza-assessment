@@ -45,7 +45,6 @@ const usePricing = (pricingRules: PricingRulesType) => {
 
   const getDiscount = useCallback(
     (items: PizzaInfoCartType[], pricingRules: PricingRulesType) => {
-      // TODO: change switch case to create object { [Rules]: discountFunc}
       switch (pricingRules.type) {
         case PricingRulesEnum.DROP:
           return getDropDiscount(items, pricingRules as PricingRulesDropType);
@@ -68,7 +67,7 @@ const usePricing = (pricingRules: PricingRulesType) => {
         0
       );
       const discount = getDiscount(items, pricingRules);
-      return total + discount;
+      return Math.round((total + discount) * 100) / 100;
     },
     [pricingRules, getDiscount]
   );

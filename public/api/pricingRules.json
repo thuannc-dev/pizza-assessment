@@ -1,6 +1,6 @@
 {
   "pricingRules": [
-    { "id": "default" },
+    { "id": "default", "type": "DEFAULT" },
     {
       "id": "microsoft",
       "type": "GET_MORE",
